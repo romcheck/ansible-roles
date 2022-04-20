@@ -1,0 +1,16 @@
+---
+
+- name: Install apt https module and gnupg-agent
+  apt:
+    install_recommends: false
+    pkg:
+    - apt-transport-https
+    - gnupg-agent
+
+- name: Install gpg key
+  apt_key: url=https://download.docker.com/linux/ubuntu/gpg
+
+- name: Add docker repo
+  apt_repository:
+    repo: "deb [arch=amd64] https://download.docker.com/linux/{{ ansible_distribution|lower }} {{ ansible_distribution_release|lower }} {{ docker_update_channel }}"
+    filename: docker

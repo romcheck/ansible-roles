@@ -1,0 +1,26 @@
+---
+
+docker: true
+docker_update_channel: stable
+docker_data_dir: /var/lib/docker
+python_compose_module: false
+swarm: false
+
+docker_keep_storage_gigabyptes: 30
+
+docker_tls: false
+docker_userns: false
+
+ca_key_path: /etc/docker/ca.key
+ca_csr_path: /etc/docker/ca.csr
+ca_crt_path: /etc/docker/ca.crt
+
+server_key_path: /etc/docker/server.key
+server_csr_path: /etc/docker/server.csr
+server_crt_path: /etc/docker/server.crt
+
+client_key_path: /etc/docker/client.key
+client_csr_path: /etc/docker/client.csr
+client_crt_path: /etc/docker/client.crt
+
+docker_systemd_unit_path: /etc/systemd/system/multi-user.target.wants/docker.service

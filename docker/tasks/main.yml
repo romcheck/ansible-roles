@@ -1,0 +1,39 @@
+---
+
+- include_tasks: "{{ ansible_os_family }}.yml"
+
+- block:
+  - name: Install Docker package
+    package: name=docker-ce update_cache=true
+  - name: Install docker daemon config
+    template:
+     src: daemon.json
+     dest: /etc/docker/
+    notify: restart docker
+  - name: Ensure Docker is started and enabled at boot
+    service:
+      name: docker
+      state: started
+      enabled: yes
+  when: docker
+
+- include_tasks: compose.yml
+  when: python_compose_module
+
+- name: Secure docker daemon
+  include_tasks: tls.yml
+  when: docker_tls
+
+- name: Extend default userns docker remap range
+  lineinfile:
+    path: "{{ item }}"
+    regexp: "dockremap"
+    line: "dockremap:362144:524288"
+  loop:
+  - /etc/subuid
+  - /etc/subgid
+  when: docker_userns
+
+- name: Init docker swarm cluster
+  command: docker swarm init
+  when: swarm

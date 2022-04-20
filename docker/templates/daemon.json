@@ -1,0 +1,18 @@
+{
+{% if docker_tls|bool %}
+  "tlsverify": true,
+  "tlscacert": "/etc/docker/ca.crt",
+  "tlscert": "/etc/docker/server.crt",
+  "tlskey": "/etc/docker/server.key",
+{% endif %}
+{% if docker_userns|bool %}
+  "userns-remap": "default",
+{% endif %}
+  "data-root": "{{ docker_data_dir }}",
+  "builder": {
+    "gc": {
+      "enabled": true,
+      "defaultKeepStorage": "{{ docker_keep_storage_gigabyptes }}GB"
+    }
+  }
+}
