@@ -1,13 +1,12 @@
 ---
 
 user: user
-user_group: "{{ user }}"
-user_groups: ""
-user_state: present
-user_pubkey: false
-user_pubkey_exclusive: false
-sudo_group: sudo
-add_sudo_group: false
-enable_sudo_nopasswd: false
-enable_password_auth: true
+user_group: users
+user_groups: []
+remove: false
+state: present
+pubkey: false
+pubkey_exclusive: false
+sudo: false
+password_auth: true
 sshd_service_name: ssh

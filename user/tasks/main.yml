@@ -1,40 +1,35 @@
 ---
 
-- name: Add sudo group
-  when: add_sudo_group
-  group:
-    name: "{{ sudo_group }}"
-
-- name: Ensure sudoers
-  when: enable_sudo_nopasswd
+- name: Ensure sudoer
+  when: sudo
   lineinfile:
-    path: "/etc/sudoers.d/{{ sudo_group }}"
-    line: "%{{ sudo_group }} ALL=(ALL) NOPASSWD:ALL"
+    path: "/etc/sudoers.d/{{ user }}"
+    line: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
     create: yes
+    state: "{{ state }}"
 
-- name: Manage user group
+- name: Manage primary group
   group:
     name: "{{ user_group }}"
-    state: "{{ user_state }}"
 
 - name: Manage user
   user:
     name: "{{ user }}"
     group: "{{ user_group }}"
     groups: "{{ user_groups }}"
-    state: "{{ user_state }}"
+    state: "{{ state }}"
     shell: /bin/bash
 
 - name: Set authorized key
-  when: user_pubkey and user_state != "absent"
+  when: pubkey and state != "absent"
   authorized_key:
     user: "{{ user }}"
-    key: "{{ user_pubkey }}"
-    exclusive: "{{ user_key_exclusive }}"
+    key: "{{ pubkey }}"
+    exclusive: "{{ pubkey_exclusive }}"
 
 - name: Manage password authentication
   notify: restart sshd
   lineinfile:
     path: "/etc/ssh/sshd_config"
     regexp: "^(.*)PasswordAuthentication (.*)"
-    line: "PasswordAuthentication {{ enable_password_auth | ternary('yes', 'no') }}"
+    line: "PasswordAuthentication {{ password_auth | ternary('yes', 'no') }}"
