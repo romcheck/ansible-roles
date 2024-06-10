@@ -1,9 +1,9 @@
 ---
 
-- name: Ensure sudoer
+- name: Ensure sudoers
   when: sudo
   lineinfile:
-    path: "/etc/sudoers.d/{{ user }}"
+    path: "/etc/sudoers.d/{{ user | replace('.', '-') }}"
     line: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
     create: yes
     state: "{{ state }}"

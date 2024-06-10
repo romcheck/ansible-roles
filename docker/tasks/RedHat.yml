@@ -1,5 +1,9 @@
 ---
 
+- name: Detect Centos 8 
+  fail: msg="Centos 8 is unsupported platform!"
+  when: ansible_distribution_major_version == "8"
+
 - name: Add key
   rpm_key: key=https://download.docker.com/linux/centos/gpg
 
@@ -14,8 +18,3 @@
     section: "docker-ce-{{ docker_update_channel }}"
     option: enabled
     value: "1"
-
-- name: Centos 8 or newer requirement
-  dnf:
-    name: "https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.6-3.3.el7.x86_64.rpm"
-  when: ansible_distribution_major_version > '7'
