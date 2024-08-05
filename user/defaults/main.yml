@@ -1,9 +1,8 @@
 ---
 
 user: user
-user_group: users
+user_group: ${{ user }}
 user_groups: []
-remove: false
 state: present
 pubkey: false
 pubkey_exclusive: false

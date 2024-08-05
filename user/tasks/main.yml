@@ -28,6 +28,7 @@
     exclusive: "{{ pubkey_exclusive }}"
 
 - name: Manage password authentication
+  when: not password_auth
   notify: restart sshd
   lineinfile:
     path: "/etc/ssh/sshd_config"
