@@ -19,6 +19,7 @@
     groups: "{{ user_groups }}"
     state: "{{ state }}"
     shell: /bin/bash
+    remove: "{{ remove }}"
 
 - name: Set authorized key
   when: pubkey and state != "absent"
