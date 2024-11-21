@@ -1,7 +1,7 @@
 ---
 
 user: user
-user_group: ${{ user }}
+user_group: "{{ user }"
 user_groups: []
 state: present
 remove: false
