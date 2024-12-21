@@ -4,7 +4,6 @@ docker: true
 docker_update_channel: stable
 docker_data_dir: /var/lib/docker
 python_compose_module: false
-swarm: false
 
 docker_keep_storage_gigabytes: 30
 

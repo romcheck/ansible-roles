@@ -1,12 +1,11 @@
 ---
 
 - name: Ensure sudoers
-  when: sudo
   lineinfile:
     path: "/etc/sudoers.d/{{ user | replace('.', '-') }}"
     line: "{{ user }} ALL=(ALL) NOPASSWD:ALL"
     create: yes
-    state: "{{ state }}"
+    state: "{{ sudo | ternary('present', 'absent') }}"
 
 - name: Manage primary group
   group:
@@ -33,5 +32,5 @@
   notify: restart sshd
   lineinfile:
     path: "/etc/ssh/sshd_config"
-    regexp: "^(.*)PasswordAuthentication (.*)"
+    regexp: "^([ \t])*PasswordAuthentication([ \t])?"
     line: "PasswordAuthentication {{ password_auth | ternary('yes', 'no') }}"
