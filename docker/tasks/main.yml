@@ -17,8 +17,9 @@
       enabled: yes
   when: docker
 
-- include_tasks: compose.yml
-  when: python_compose_module
+- name: Install Docker Compose plugin cli package
+  package: name=docker-ce update_cache=true
+  when: docker_compose
 
 - name: Secure docker daemon
   include_tasks: tls.yml
@@ -33,7 +34,3 @@
   - /etc/subuid
   - /etc/subgid
   when: docker_userns
-
-- name: Init docker swarm cluster
-  command: docker swarm init
-  when: swarm
